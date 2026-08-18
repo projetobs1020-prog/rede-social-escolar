@@ -1,0 +1,13 @@
+window.Store={posts(){return JSON.parse(localStorage.getItem("conecta_posts")||"null")||[
+{id:1,authorId:"m1",name:"Mariana",initial:"MA",time:"há 12 min",text:"Gente, alguém sabe se amanhã vai ter aula normal? 👀",likes:12,comments:[{name:"Pedro",text:"Pelo que falaram, sim!"}]},
+{id:2,authorId:"p1",name:"Pedro",initial:"PE",time:"há 28 min",text:"O interclasses vai ser muito bom! Quem vai jogar? ⚽",likes:27,comments:[]},
+{id:3,authorId:"a1",name:"Ana",initial:"AN",time:"há 1 h",text:"Lembrete: a entrega do trabalho de História é sexta-feira.",likes:18,comments:[]}
+]},
+savePosts(p){localStorage.setItem("conecta_posts",JSON.stringify(p))}};
+window.Posts={
+ render(){const el=document.getElementById("feed");el.innerHTML=`<div class="topbar"><h1>Início</h1><div><button class="icon-btn" onclick="App.toggleTheme()">◐</button></div></div>
+ <div class="card composer"><div class="row"><div class="avatar">${Auth.user.initial}</div><textarea id="postText" placeholder="O que está acontecendo na escola?"></textarea></div><div class="composer-footer"><div class="chips"><button class="chip">📷 Foto</button><button class="chip"># Tópico</button></div><button class="btn primary" onclick="Posts.publish()">Publicar</button></div></div><div id="postList"></div>`;this.list()},
+ list(){const el=document.getElementById("postList");if(!el)return;el.innerHTML=Store.posts().map(p=>`<article class="card post"><div class="post-head"><div class="user"><div class="avatar sm">${p.initial}</div><div><b>${App.escape(p.name)} ${p.authorId!=="demo"?"✓":""}</b><small>${p.time} · 9º Ano</small></div></div><button class="post-menu" onclick="Reports.open(${p.id})">⋯</button></div><div class="post-body">${App.escape(p.text).replace(/#(\\w+)/g,'<span class="tag">#$1</span>')}</div><div class="post-actions"><button onclick="Likes.like(${p.id})">♡ ${p.likes}</button><button onclick="Comments.toggle(${p.id})">◯ ${p.comments.length}</button><button onclick="Reports.open(${p.id})">⚑ Denunciar</button></div><div id="comments-${p.id}"></div></article>`).join("")},
+ publish(){const text=document.getElementById("postText").value.trim();if(!text)return App.toast("Escreva algo antes de publicar.");const p=Store.posts();p.unshift({id:Date.now(),authorId:"demo",name:Auth.user.name,initial:Auth.user.initial,time:"agora",text,likes:0,comments:[]});Store.savePosts(p);this.list();document.getElementById("postText").value="";App.toast("Publicação criada!")},
+ remove(id){Store.savePosts(Store.posts().filter(p=>p.id!==id));this.list();App.closeModal();App.toast("Publicação removida.")}
+};

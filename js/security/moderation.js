@@ -1,0 +1,1 @@
+window.Moderation={check(){const count=JSON.parse(localStorage.getItem("conecta_reports")||"[]").length;if(count>=3)App.toast("⚠️ Automoderação: conteúdo sinalizado para revisão. Banimento definitivo exige revisão humana.")}};
