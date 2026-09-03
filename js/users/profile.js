@@ -1,8 +1,0 @@
-window.Profile={
- render(){return `<div class="topbar"><h1>Meu perfil</h1><button class="secondary" onclick="Profile.edit()">Editar perfil</button></div>
- <div class="card"><div class="profile-cover"></div><div class="profile-box"><div class="avatar profile-avatar">${Auth.user.initial}</div><h2 style="margin-top:10px">${Auth.user.name} <span class="verified">✓ Verificado</span></h2><p style="color:var(--muted)">${Auth.user.school} · ${Auth.user.className}</p>
- <p style="margin-top:14px;line-height:1.5">Estudante da comunidade Conecta. Aqui você poderá mostrar sua bio, interesses e atividades escolares.</p>
- <div class="stats"><div class="stat"><b>${Store.posts().filter(p=>p.authorId===Auth.user.id).length}</b><small>Posts</small></div><div class="stat"><b>3</b><small>Conquistas</small></div><div class="stat"><b>128</b><small>XP</small></div></div></div></div>`},
- edit(){App.openModal(`<h2>Editar perfil</h2><p>Altere os dados do perfil de demonstração.</p><input id="editName" class="search" value="${Auth.user.name}"><textarea id="editBio" class="search" rows="4" placeholder="Sua bio"></textarea><div style="display:flex;justify-content:flex-end;gap:8px"><button class="secondary" onclick="App.closeModal()">Cancelar</button><button class="btn primary" onclick="Profile.save()">Salvar</button></div>`)},
- save(){const n=document.getElementById("editName").value.trim();if(n)Auth.user.name=n;document.getElementById("miniName").textContent=Auth.user.name;App.closeModal();App.render();App.toast("Perfil atualizado.")}
-};

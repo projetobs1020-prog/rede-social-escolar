@@ -1,1 +1,0 @@
-window.Likes={like(id){const p=Store.posts().find(x=>x.id===id);p.likes++;Store.savePosts(Store.posts());Posts.list();App.toast("Curtida adicionada.")}};

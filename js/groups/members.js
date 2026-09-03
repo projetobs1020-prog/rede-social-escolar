@@ -1,1 +1,0 @@
-window.Members={join(id){const g=Groups.data.find(x=>x.id===id);g.members++;App.toast(g.type==="Privado"?"Solicitação enviada!":"Você entrou no grupo!");Groups.list()}};
